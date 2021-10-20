@@ -31,6 +31,6 @@ public class Application {
                 .diagnosticsEnabled(false)
                 .build();
 
-        ImageCrawler.Factory.newCrawler(CrawlerType.SEQUENTIAL_LOOPS, controller).run();
+        ImageCrawler.Factory.newCrawler(CrawlerType.PARALLEL_STREAMS, controller).run();
     }
 }
