@@ -3,7 +3,10 @@ package edu.vanderbilt.imagecrawler.platform;
 import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
+import edu.vanderbilt.imagecrawler.utils.Options;
 import edu.vanderbilt.imagecrawler.utils.UriUtils;
 
 /**
@@ -62,6 +65,9 @@ public class JavaPlatform implements Platform {
                 return new URL(absPath).openStream();
             } else {
                 // Normal URL.
+//                String path = uri.replace(Options.DEFAULT_WEB_URL, "");
+//                path = URLEncoder.encode(path, StandardCharsets.UTF_8.toString());
+//                return new URL(Options.DEFAULT_WEB_URL+path).openStream();
                 return new URL(uri).openStream();
             }
         } catch (Exception e) {

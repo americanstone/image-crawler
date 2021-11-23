@@ -263,10 +263,10 @@ public abstract class ImageCrawler
      * Return an array of all the IMG SRC URLs in this document.
      */
     @NotNull
-    protected Array<URL> getImagesOnPage(Crawler.Page page) {
+    protected List<URL> getImagesOnPage(Crawler.Page page) {
         log("Getting images on page ...");
         // Create an Array to store the results.
-        Array<URL> results = new UnsynchronizedArray<>();
+        List<URL> results = new ArrayList<>();
 
         // Return an array of all the IMG SRC URLs in this page.
         page
@@ -502,6 +502,17 @@ public abstract class ImageCrawler
         } catch (IOException e) {
             throw ExceptionUtils.unchecked(e);
         }
+    }
+
+    /**
+     * Asynchronously download an image from the {@code url} parameter
+     * and return a CompletableFuture that completes when the image
+     * finishes being downloaded and stored in the cache.
+     */
+    protected CompletableFuture<Image> getOrDownloadImageAsync(URL url) {
+        // Asynchronously download/store an Image from the url
+        // parameter.
+        return CompletableFuture.supplyAsync(() -> getOrDownloadImage(url));
     }
 
     /**

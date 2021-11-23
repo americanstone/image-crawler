@@ -13,6 +13,8 @@ public class Options {
      * Defaults.
      */
     public static String DEFAULT_WEB_URL = "http://www.dre.vanderbilt.edu/~schmidt/imgs";
+//    public static String DEFAULT_WEB_URL = "https://sprinter-source.com/forums/index.php?threads/103405/";
+
     public static String DEFAULT_DOWNLOAD_DIR_NAME = "downloaded-images";
 
     /**
@@ -20,7 +22,7 @@ public class Options {
      * <p>
      * Default: false.
      */
-    public static boolean mDebug = false;
+    public static boolean mDebug = true;
 
     /**
      * Starting point for the crawling.

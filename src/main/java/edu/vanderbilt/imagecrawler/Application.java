@@ -20,17 +20,17 @@ public class Application {
         if (local) {
             rootUrl = Platform.RESOURCES_URI_PREFIX + "/" + UriUtils.mapUriToRelativePath(Options.DEFAULT_WEB_URL);
         }
-        System.out.println("done?");
         Controller controller = Controller
                 .newBuilder()
                 .platform(new JavaPlatform())
-                .transforms(Arrays.stream(Transform.Type.values()).collect(Collectors.toList()))
+                .localTransforms(true)
+//                .transforms(Arrays.stream(Transform.Type.values()).collect(Collectors.toList()))
                 .rootUrl(rootUrl)
                 .localTransforms(true)
                 .maxDepth(3)
-                .diagnosticsEnabled(false)
+                .diagnosticsEnabled(true)
                 .build();
 
-        ImageCrawler.Factory.newCrawler(CrawlerType.PARALLEL_STREAMS, controller).run();
+        ImageCrawler.Factory.newCrawler(CrawlerType.COMPLETABLE_FUTURES, controller).run();
     }
 }

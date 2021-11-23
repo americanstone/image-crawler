@@ -1,11 +1,21 @@
-apply plugin: 'java-library'
-apply plugin: 'kotlin'
-apply plugin: 'org.jetbrains.kotlin.kapt'
+//apply plugin: 'java-library'
+//apply plugin: 'kotlin'
+//apply plugin: 'org.jetbrains.kotlin.kapt'
+plugins {
+    id "application"
+    id "java-library"
+    id 'org.jetbrains.kotlin.jvm' version '1.5.31'
+    id "org.jetbrains.kotlin.kapt" version "1.5.31"
+//    id "com.android.application" version("4.1.1")
+}
 
+application {
+    mainClass = 'edu.vanderbilt.imagecrawler.Application'
+}
 version = "1.0.0"
 group = "com.codehub"
 
-buildscript {
+//buildscript {
     ext {
         // Needs to be an extension for functions to be able to access it.
 
@@ -58,54 +68,50 @@ buildscript {
     repositories {
         google()
     }
-
-    dependencies {
-        classpath "com.android.tools.build:gradle:${versions.android}"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
-        if (file("$projectDir/admin/skeleton.gradle").isFile()) {
-            classpath "org.ajoberstar:grgit:1.9.3"
-        }
-    }
-}
-//plugins {
-//    id "java-library"
-//    id "kotlin"
-//    id "org.jetbrains.kotlin.kapt" version "1.5.31"
+//
+//    dependencies {
+//        classpath "com.android.tools.build:gradle:${versions.android}"
+//        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
+//        if (file("$projectDir/admin/skeleton.gradle").isFile()) {
+//            classpath "org.ajoberstar:grgit:1.9.3"
+//        }
+//    }
 //}
 
-targetCompatibility = build_versions.java
-sourceCompatibility = build_versions.java
+
+//targetCompatibility = JavaVersion.VERSION_1_8
+//sourceCompatibility = JavaVersion.VERSION_1_8
+//compileSdkVersion = JavaVersion.VERSION_1_8
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "org.jsoup:jsoup:$versions.jsoup"
-    implementation "org.jetbrains:annotations:$versions.annotations"
-    implementation "commons-io:commons-io:$versions.commons_io"
-    implementation "org.jetbrains.kotlin:kotlin-reflect:$versions.kotlin"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.coroutines"
-    implementation "io.reactivex.rxjava3:rxjava:$versions.rxjava"
-    implementation "io.projectreactor:reactor-core:3.4.8"
+    implementation "org.jsoup:jsoup:1.14.3"
+    implementation "org.jetbrains:annotations:22.0.0"
+    implementation "commons-io:commons-io:20030203.000550"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.5.31"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2-native-mt"
+    implementation "io.reactivex.rxjava3:rxjava:3.1.2"
+    implementation 'io.projectreactor:reactor-core:3.4.11'
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
 
     // TODO: Grader won't find these libraries when they are declared only as testImplementation
     implementation 'io.mockk:mockk:1.12.0'
-    implementation 'org.assertj:assertj-core:3.20.2'
-    implementation 'com.google.code.gson:gson:2.8.7'
+    implementation 'org.assertj:assertj-core:3.21.0'
+    implementation 'com.google.code.gson:gson:2.8.8'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.2'
     implementation 'com.jakewharton.retrofit:retrofit2-reactor-adapter:2.1.0'
 
     // TODO: Grader won't find this library when it's declared only as testImplementation
-    implementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$versions.mockito_kotlin"
-
-    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$versions.kotlin"
-    testImplementation "org.mockito:mockito-core:$versions.mockito"
-    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$versions.mockito_kotlin"
+    implementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:1.5.31"
+    testImplementation "org.mockito:mockito-core:4.0.0"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
     testImplementation 'io.mockk:mockk:1.12.0'
-    testImplementation 'org.assertj:assertj-core:3.20.2'
-    testImplementation "junit:junit:$versions.junit"
+    testImplementation 'org.assertj:assertj-core:3.21.0'
+    testImplementation "junit:junit:4.13.2"
 }
 
 test {
@@ -127,10 +133,35 @@ compileTestKotlin {
     }
 }
 
+repositories {
+    mavenCentral()
+}
+
 tasks.register("hello"){
     doLast{
         println project.getVersion()
         println project.getName()
+
+    }
+}
+task printSourceSetInformation(){
+    doLast{
+        sourceSets.each { srcSet ->
+            println "["+srcSet.name+"]"
+            print "-->Source directories: "+srcSet.allJava.srcDirs+"\n"
+            print "-->Output directories: "+srcSet.output.classesDirs.files+"\n"
+            print "-->Compile classpath:\n"
+            srcSet.compileClasspath.files.each {
+                print "  "+it.path+"\n"
+            }
+            println ""
+
+        }
+       configurations.each {
+           conf ->
+//               println "[" + conf.allDependencies + "]"
+               println "[" + conf.name + "]"
+       }
 
     }
 }
