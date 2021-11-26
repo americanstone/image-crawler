@@ -31,6 +31,6 @@ public class Application {
                 .diagnosticsEnabled(true)
                 .build();
 
-        ImageCrawler.Factory.newCrawler(CrawlerType.COMPLETABLE_FUTURES, controller).run();
+        ImageCrawler.Factory.newCrawler(CrawlerType.PROJECT_REACTOR, controller).run();
     }
 }
